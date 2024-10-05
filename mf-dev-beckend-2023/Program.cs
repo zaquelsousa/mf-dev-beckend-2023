@@ -1,3 +1,6 @@
+using mf_dev_beckend_2023.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,8 @@ builder.Services.AddControllersWithViews();
 
 //adicionando um treco aqui pra atualizar as views sem precisar ficar compilando toda hora sa porra
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

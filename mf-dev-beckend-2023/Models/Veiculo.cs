@@ -18,9 +18,11 @@ namespace mf_dev_beckend_2023.Models
         public string? VeiculoPlaca { get; set; }
 
         [Required(ErrorMessage = "Obrigario informa o ano de fabricação!")]
+        [Display (Name = "Ano de fabricação")]
         public int AnoFabricacao { get; set; }
 
         [Required(ErrorMessage = "Obrigario informa ano do modelo!")]
+        [Display(Name = "Ano do modelo")]
         public int AnoModelo { get; set; }
     }
 }
