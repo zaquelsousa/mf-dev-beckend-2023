@@ -24,5 +24,7 @@ namespace mf_dev_beckend_2023.Models
         [Required(ErrorMessage = "Obrigario informa ano do modelo!")]
         [Display(Name = "Ano do modelo")]
         public int AnoModelo { get; set; }
+
+        public ICollection<Consumo>? Consumos { get; set; }
     }
 }

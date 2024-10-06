@@ -15,7 +15,7 @@ namespace mf_dev_beckend_2023.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Veiculos");
         }
 
         public IActionResult Privacy()

@@ -1,9 +1,11 @@
 ﻿using mf_dev_beckend_2023.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace mf_dev_beckend_2023.Controllers
 {
+    [Authorize]
     public class VeiculosController : Controller
     {   
         private readonly AppDbContext _context;
@@ -25,7 +27,7 @@ namespace mf_dev_beckend_2023.Controllers
         }
 
         [HttpPost]
-        public async  Task<IActionResult> Create(Veiculo veiculo)
+        public async Task<IActionResult> Create(Veiculo veiculo)
         {
             if (ModelState.IsValid) {
                 _context.Veiculos.Add(veiculo);//faz a inserção no banco de dados no caso a tabela Veiculos
@@ -114,6 +116,29 @@ namespace mf_dev_beckend_2023.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Relatorio(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var veiculo = await _context.Veiculos.FindAsync(id);
+            if(veiculo == null)
+            {
+                return NotFound();
+            }
+
+            var consumos = await _context.Consumos.Where(c => c.VeiculoID == id)
+                .OrderByDescending(c => c.Date).ToListAsync();
+
+            decimal total = consumos.Sum(c => c.Valor);
+
+            ViewBag.Veiculo = veiculo;
+            ViewBag.Total = total;
+
+            return View(consumos);
+        }
 
     }
 }
